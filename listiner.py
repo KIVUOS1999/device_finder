@@ -30,7 +30,7 @@ def evalDhcpPkt(packet):
             elif label == "hostname":
                 hostname = value.decode()
 
-        returnData = [ip, vendor, hostname, target_mac]
+        returnData = [ip, vendor, hostname, time.time(), target_mac]
         logger.LOGGER_OBJ.debug("dhcp response found %s", str(ip))
 
     return returnData
