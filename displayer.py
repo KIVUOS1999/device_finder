@@ -1,6 +1,20 @@
 import storage
+import time
+import constants
+
+
+def isOnline(old_time):
+    if time.time() - old_time > constants.ONLINE_LIMIT:
+        return False
+    else:
+        return True
 
 
 def Print_global_storage():
-    for i, j in storage.Global_storage_get_all().items():
-        print(i, "\t=====>\t", j)
+    global_storage = storage.Global_storage_get_all()
+    for i, j in global_storage.items():
+        print(i, "\t=====>\t", j, end=" ")
+        if isOnline(j[-2]):
+            print("online")
+        else:
+            print("offline")
