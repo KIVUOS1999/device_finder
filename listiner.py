@@ -1,4 +1,5 @@
-from scapy.all import *
+from scapy.all import DHCP, Ether, ARP, sniff
+import time
 import storage
 import logger
 
