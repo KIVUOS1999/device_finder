@@ -1,6 +1,7 @@
 import time
 
 GLOBAL_STORAGE = {}
+MANUFACTURE = {}
 
 
 def Global_storage_add_entry(mac_address, datas):
@@ -13,7 +14,7 @@ def Global_storage_dhcp_update(mac_address, datas):
         GLOBAL_STORAGE[mac_address] = datas
 
     else:
-        ip, vendor, hostname, _, _ = datas
+        ip, vendor, hostname, _, _, _ = datas
         if GLOBAL_STORAGE[mac_address][0] != ip:
             GLOBAL_STORAGE[mac_address][0] = ip
 
@@ -29,7 +30,7 @@ def Global_storage_dhcp_update(mac_address, datas):
 def Global_storage_icmp_update(mac_address, ip):
     if mac_address not in GLOBAL_STORAGE:
         GLOBAL_STORAGE[mac_address] = [
-            ip, None, None, time.time(), mac_address]
+            ip, None, None, GetManufacture(mac_address), time.time(), mac_address]
 
     else:
         if GLOBAL_STORAGE[mac_address][0] != ip:
@@ -48,3 +49,9 @@ def Global_storage_get(mac_address):
 
 def Global_storage_get_all():
     return GLOBAL_STORAGE
+
+
+def GetManufacture(mac_address):
+    stripped_mac = mac_address.upper()[:8]
+    if stripped_mac in MANUFACTURE:
+        return MANUFACTURE[stripped_mac]

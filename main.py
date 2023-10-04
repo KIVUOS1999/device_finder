@@ -4,6 +4,7 @@ import threading
 import pinger
 import time
 import constants
+import macToManufacture
 
 
 def execute_display_global():
@@ -24,6 +25,9 @@ def execute_pingger():
         pinger.pingDevicesInNetwork()
         time.sleep(constants.PING_TIME_INTERVAL)
 
+
+# fill the manufacture_data
+macToManufacture.Parse_manufacture_file()
 
 # starting display events
 threadDisplay = threading.Thread(target=execute_display_global)

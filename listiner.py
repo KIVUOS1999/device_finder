@@ -30,16 +30,19 @@ def evalDhcpPkt(packet):
             elif label == "hostname":
                 hostname = value.decode()
 
-        returnData = [ip, vendor, hostname, time.time(), target_mac]
+        returnData = [ip, vendor, hostname,
+                      storage.GetManufacture(target_mac),
+                      time.time(), target_mac]
         logger.LOGGER_OBJ.debug("dhcp response found %s", str(ip))
 
     return returnData
 
 
 def all_time_listiner(packet):
-    if packet.haslayer(ICMP) and packet[ICMP].type == 0:
-        logger.LOGGER_OBJ.debug("ICMP response found %s", str(packet[IP].src))
-        ip = packet[IP].src
+    if ARP in packet and packet[ARP].op == 2:
+        logger.LOGGER_OBJ.debug(
+            "ICMP response found %s", str(packet[ARP].psrc))
+        ip = packet[ARP].psrc
         if packet.haslayer(Ether):
             mac = packet.getlayer(Ether).src
             storage.Global_storage_icmp_update(mac, ip)
@@ -51,5 +54,5 @@ def all_time_listiner(packet):
 
 
 def start_all_time_listiner():
-    sniff(filter="icmp or (udp and (port 67 or port 68))",
+    sniff(filter="arp or (udp and (port 67 or port 68))",
           prn=all_time_listiner, iface="Wi-Fi")
