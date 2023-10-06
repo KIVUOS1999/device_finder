@@ -1,4 +1,4 @@
-from scapy.all import DHCP, Ether, ARP, sniff
+from scapy.all import DHCP, Ether, IP, sniff, ICMP
 import time
 import storage
 import logger
@@ -40,10 +40,10 @@ def evalDhcpPkt(packet):
 
 
 def all_time_listiner(packet):
-    if ARP in packet and packet[ARP].op == 2:
+    if ICMP in packet and packet[ICMP].type == 0:
         logger.LOGGER_OBJ.debug(
-            "ICMP response found %s", str(packet[ARP].psrc))
-        ip = packet[ARP].psrc
+            "ICMP response found %s", str(packet[IP].src))
+        ip = packet[IP].src
         if packet.haslayer(Ether):
             mac = packet.getlayer(Ether).src
             storage.Global_storage_icmp_update(mac, ip)
@@ -55,5 +55,5 @@ def all_time_listiner(packet):
 
 
 def start_all_time_listiner():
-    sniff(filter="arp or (udp and (port 67 or port 68))",
+    sniff(filter="icmp or (udp and (port 67 or port 68))",
           prn=all_time_listiner, iface="Wi-Fi")
