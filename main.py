@@ -9,7 +9,6 @@ import macToManufacture
 
 def execute_display_global():
     while True:
-        print("====================== printing global storage =====================\n")
         displayer.Print_global_storage()
         print("\n\n\n")
 

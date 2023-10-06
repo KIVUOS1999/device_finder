@@ -13,7 +13,8 @@ def isOnline(old_time):
 def Print_global_storage():
     global_storage = storage.Global_storage_get_all()
     for i, j in global_storage.items():
-        print(i, "\t=====>\t", j, end=" ")
+        for k in j:
+            print(k, end="\t")
         if isOnline(j[-2]):
             print("online")
         else:

@@ -18,7 +18,7 @@ def getMyDeviceIP():
 
 
 def pingDevice(address):
-    ping(address, count=2, timeout=0)
+    ping(address, count=10, timeout=0)
 
 
 def pingDevicesInNetwork():
