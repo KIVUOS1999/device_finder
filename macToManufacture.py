@@ -5,7 +5,7 @@ manufacture_file = constants.MANUFACTURE_PATH
 
 
 def Parse_manufacture_file():
-    with open(manufacture_file, 'r') as file:
+    with open(manufacture_file, 'r',  encoding='utf-8') as file:
         for line in file:
             arr = (line.strip()).split("\t")
             mac_address = arr[0]

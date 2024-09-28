@@ -5,6 +5,7 @@ import pinger
 import time
 import constants
 import macToManufacture
+import misc
 
 
 def execute_display_global():
@@ -25,6 +26,12 @@ def execute_pingger():
         time.sleep(constants.PING_TIME_INTERVAL)
 
 
+def execute_misc():
+    while True:
+        misc.execute_misc()
+        time.sleep(constants.MISC_TIME_INTERVAL)
+
+
 # fill the manufacture_data
 macToManufacture.Parse_manufacture_file()
 
@@ -39,3 +46,7 @@ thread.start()
 # starting pingger
 threadPingger = threading.Thread(target=execute_pingger)
 threadPingger.start()
+
+# misclenous os finder
+threadMisc = threading.Thread(target=execute_misc)
+threadMisc.start()
